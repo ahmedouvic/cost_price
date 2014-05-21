@@ -1,0 +1,251 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* cost_price
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 7.0-20140426-231242\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-21 22:31+0000\n"
+"PO-Revision-Date: 2014-05-21 22:31+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: cost_price
+#: selection:transit.business,state:0
+msgid "Confirmed"
+msgstr "Confirmé"
+
+#. module: cost_price
+#: model:ir.model,name:cost_price.model_business_line
+#: model:ir.model,name:cost_price.model_transit_business_line
+msgid "lignes de produits"
+msgstr "lignes de produits"
+
+#. module: cost_price
+#: view:transit.business:0
+msgid "Confirm"
+msgstr "Confirm"
+
+#. module: cost_price
+#: field:transit.business.line,business_id:0
+msgid "Business Ref"
+msgstr "Business Ref"
+
+#. module: cost_price
+#: view:transit.business:0
+msgid "Total Transit"
+msgstr "Total Transit"
+
+#. module: cost_price
+#: field:transit.business,state:0
+msgid "State"
+msgstr "Etat"
+
+#. module: cost_price
+#: selection:account.invoice,purchase_type:0
+msgid "Other"
+msgstr "Autre"
+
+#. module: cost_price
+#: view:transit.business:0
+#: selection:transit.business,state:0
+msgid "Draft"
+msgstr "Brouillon"
+
+#. module: cost_price
+#: view:transit.business:0
+msgid "Total Customs"
+msgstr "Total Douane"
+
+#. module: cost_price
+#: field:account.invoice,purchase_type:0
+msgid "Purchase type"
+msgstr "Type Achat"
+
+#. module: cost_price
+#: field:transit.business,coefficient:0
+msgid "Coefficient"
+msgstr "Coefficient"
+
+#. module: cost_price
+#: field:transit.business.line,product_id:0
+msgid "Product"
+msgstr "Produit"
+
+#. module: cost_price
+#: view:transit.business:0
+msgid "Total Other costs"
+msgstr "Total Autre couts"
+
+#. module: cost_price
+#: field:transit.business.line,name:0
+msgid "Description"
+msgstr "Description"
+
+#. module: cost_price
+#: field:account.invoice,business_id:0
+#: view:transit.business:0
+#: field:transit.business,name:0
+msgid "Business"
+msgstr "Affaire"
+
+#. module: cost_price
+#: view:transit.business:0
+msgid "Total Costs"
+msgstr "Total Couts"
+
+#. module: cost_price
+#: field:transit.business.line,customs:0
+msgid "Customs"
+msgstr "Douane"
+
+#. module: cost_price
+#: field:transit.business.line,quantity:0
+msgid "Quantity"
+msgstr "Quantité"
+
+#. module: cost_price
+#: field:transit.business,business_line:0
+msgid "Product lines"
+msgstr "Lignes de produits"
+
+#. module: cost_price
+#: field:transit.business.line,others:0
+msgid "Others"
+msgstr "Autres"
+
+#. module: cost_price
+#: field:transit.business,extra_costs:0
+msgid "Extra Costs"
+msgstr "Couts Supplementaires"
+
+#. module: cost_price
+#: field:transit.business.line,price_subtotal:0
+msgid "Subtotal"
+msgstr "Ssous btotal"
+
+#. module: cost_price
+#: selection:account.invoice,purchase_type:0
+#: field:transit.business.line,bank:0
+msgid "Bank"
+msgstr "Banque"
+
+#. module: cost_price
+#: field:transit.business,date_end:0
+msgid "End Date"
+msgstr "Date fin"
+
+#. module: cost_price
+#: view:transit.business:0
+msgid "Total Bank"
+msgstr "Total Banque"
+
+#. module: cost_price
+#: model:ir.actions.act_window,name:cost_price.transit_business_all_form_action
+msgid "All businesses"
+msgstr "Toutes les affaires"
+
+#. module: cost_price
+#: field:transit.business.line,unit_price:0
+msgid "Unit_price"
+msgstr "Prix unitaire"
+
+#. module: cost_price
+#: selection:account.invoice,purchase_type:0
+msgid "Transit invoice"
+msgstr "Facture Transit"
+
+#. module: cost_price
+#: view:transit.business:0
+msgid "Products"
+msgstr "Produits"
+
+#. module: cost_price
+#: selection:account.invoice,purchase_type:0
+msgid "Customs invoice"
+msgstr "Facture Douane"
+
+#. module: cost_price
+#: model:ir.model,name:cost_price.model_transit_business
+msgid "transit business"
+msgstr "Affaire transit"
+
+#. module: cost_price
+#: selection:transit.business,state:0
+msgid "Cancelled"
+msgstr "Annulé"
+
+#. module: cost_price
+#: view:transit.business:0
+msgid "Compute cost price"
+msgstr "Calculer prix de revient"
+
+#. module: cost_price
+#: field:transit.business.line,cost_price:0
+msgid "Cost price"
+msgstr "Prix de revient"
+
+#. module: cost_price
+#: view:transit.business:0
+msgid "Transit Businesses"
+msgstr "Affaire Transit"
+
+#. module: cost_price
+#: field:transit.business,code:0
+msgid "Business Number"
+msgstr "N° affaire"
+
+#. module: cost_price
+#: model:ir.actions.act_window,name:cost_price.act_business_to_purchases
+#: view:transit.business:0
+#: field:transit.business,invoices:0
+msgid "Invoices"
+msgstr "Factures"
+
+#. module: cost_price
+#: model:ir.ui.menu,name:cost_price.menu_transit_root
+#: field:transit.business.line,transit:0
+msgid "Transit"
+msgstr "Transit"
+
+#. module: cost_price
+#: view:transit.business:0
+msgid "Total Supplier"
+msgstr "Total Fournisseur"
+
+#. module: cost_price
+#: selection:account.invoice,purchase_type:0
+msgid "Supplier invoice"
+msgstr "Facture fournisseur"
+
+#. module: cost_price
+#: model:ir.ui.menu,name:cost_price.menu_action_transit_businesses
+#: view:transit.business:0
+msgid "Businesses"
+msgstr "Affaires"
+
+#. module: cost_price
+#: model:ir.model,name:cost_price.model_account_invoice
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: cost_price
+#: view:transit.business:0
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: cost_price
+#: model:ir.ui.menu,name:cost_price.menu_transit_business_root
+msgid "Transit Business"
+msgstr "Affaire Transit"
+
+#. module: cost_price
+#: field:transit.business,date_start:0
+msgid "Start Date"
+msgstr "Date début"
+

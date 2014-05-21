@@ -41,11 +41,11 @@ Calculate the cost of imported goods in transit operations:
     """,
     'author': 'NEXTMA SARL',
     'website': 'http://www.nextma.ma',
-    'images': [],
     'depends': ['base', 'product', 'account'],
+    'images': ['images/business_form.png',],
     'data': [
-        # 'security/transit_security.xml',
-        # 'security/ir.model.access.csv',
+        'security/transit_security.xml',
+        'security/ir.model.access.csv',
         'transit_business_view.xml',
         'transit_business_sequence.xml'
     ],

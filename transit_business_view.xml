@@ -41,6 +41,7 @@
 					<field name="code"/>
 					<field name="date_start"/>
 					<field name="coefficient"/>
+					<field name="state"/>
 				</tree>
 			</field>
 		</record>
@@ -53,7 +54,7 @@
 			<field name="arch" type="xml">
 				<form string="Business" version="7.0">
                 <header>
-                    <button  type="object" name="draft_cb" string="Draft" states="confirmed,cancelled" class="oe_highlight"/>
+                    <button  type="object" name="draft_cb" string="Draft" states="cancelled" class="oe_highlight"/>
                     <button  type="object" name="confirm_cb" string="Confirm" states="draft" class="oe_highlight"/>
                     <button  type="object" name="cancel_cb" string="Cancel" states="draft"  class="oe_highlight"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,close"/>
@@ -71,43 +72,32 @@
                             <field name="coefficient" />
                         </group>
                     </group>
-					<button name="compute_all_lines" string="Compute cost price" type="object" icon="gtk-execute" />
+                    <button name="compute_all_lines" string="Compute cost price" type="object" icon="gtk-execute" states="draft"/>
+                    <notebook>
+                        <page string="Products">
+                            <field name="business_line">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="unit_price"/>
+                                    <field name="quantity"/>
+                                    <field name="price_subtotal" sum="Total Supplier"/>
+                                    <field name="transit" sum="Total Transit"/>
+                                    <field name="customs" sum="Total Customs"/>
+                                    <field name="bank" sum="Total Bank"/>
+                                    <field name="others" sum="Total Other costs"/>
+                                    <field name="cost_price" sum="Total Costs"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Invoices">
+                            <field name="invoices"/>
+                        </page>
+                    </notebook>
 
-                    <!--field name="business_line">
-                        <tree>
-                            <field name="name"/>
-                            <field name="price_unit"/>
-                            <field name="quantity"/>
-                            <field name="price_subtotal"/>
-                            <field name="transit"/>
-                            <field name="customs"/>
-                            <field name="bank"/>
-                            <field name="others"/>
-                            <field name="cost_price"/>
-                        </tree>
-                     </field-->
                 </sheet>
 				</form>
 			</field>
 		</record>
-
-        <!--record model="ir.ui.view">
-            <field name="name">transit.business.line.tree</field>
-            <field name="model">transit.business.line</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="name"/>
-                    <field name="price_unit"/>
-                    <field name="quantity"/>
-                    <field name="price_subtotal"/>
-                    <field name="transit"/>
-                    <field name="customs"/>
-                    <field name="bank"/>
-                    <field name="others"/>
-                    <field name="cost_price"/>
-                </tree>
-            </field>
-        </record-->
 
 		<record id="transit_business_all_form_action" model="ir.actions.act_window">
 			<field name="name">All businesses</field>

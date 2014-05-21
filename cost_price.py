@@ -15,7 +15,7 @@ class transit_business(osv.osv):
         'date_start': fields.date('Start Date'),
         'date_end': fields.date('End Date'),
         'coefficient': fields.float('Coefficient', readonly=True),
-        'extra_costs': fields.float('Extra Costs',),
+        'extra_costs': fields.float('Extra Costs',states={'confirmed':[('readonly',True)]}),
         'invoices': fields.one2many('account.invoice', 'business_id', 'Invoices'),
         'business_line': fields.one2many('transit.business.line', 'business_id', 'Product lines'),
 
@@ -36,13 +36,12 @@ class transit_business(osv.osv):
         pool = pooler.get_pool(cr.dbname)
         business_id = ids[0]
         business = pool.get('transit.business').browse(cr, uid, business_id)
-        invoices = business.invoices
         total_supplier = 0
         total_customs = 0
         total_transit = 0
         total_bank = 0
         total_others = business.extra_costs
-        for invoice in invoices:
+        for invoice in business.invoices:
             if invoice.currency_id.rate==0:
                 raise osv.except_osv(('Currency error'), ('Currency rate is null !'))
             amount_all = invoice.amount_total/invoice.currency_id.rate
@@ -52,18 +51,18 @@ class transit_business(osv.osv):
                 total_transit += amount_all
             elif invoice.purchase_type == 'customs':
                 total_customs += amount_all
-            elif invoice.purchase_type == 'others':
-                total_bank += total_bank
+            elif invoice.purchase_type == 'bank':
+                total_bank += amount_all
             else:
                 total_others += amount_all
         total_costs = total_customs + total_transit + total_bank + total_others
         total_amount = total_supplier + total_customs + total_transit + total_bank + total_others
         try:
-            total_coefficient = total_costs / total_amount
-            transit_coefficient = total_transit / total_amount
-            customs_coefficient = total_customs / total_amount
-            bank_coefficient = total_bank / total_amount
-            others_coefficient = total_others / total_amount
+            total_coefficient = total_costs / total_supplier
+            transit_coefficient = total_transit / total_supplier
+            customs_coefficient = total_customs / total_supplier
+            bank_coefficient = total_bank / total_supplier
+            others_coefficient = total_others / total_supplier
         except ZeroDivisionError:
             raise osv.except_osv(('No supplier invoices'),
                                  ('A transit business must contains at least one supplier invoice'))
@@ -72,7 +71,7 @@ class transit_business(osv.osv):
         DELETE from transit_business_line where business_id = %s
         '''
         cr.execute(sql, (business_id,))
-        for invoice in invoices:
+        for invoice in business.invoices:
             rate = invoice.currency_id.rate
             if invoice.purchase_type == 'supplier':
                 for line in invoice.invoice_line:
@@ -82,16 +81,16 @@ class transit_business(osv.osv):
                         'name': line.product_id.name,
                         'business_id': business_id,
                         'product_id': line.product_id.id,
-                        'price_unit': price_unit,
+                        'unit_price': price_unit,
                         'quantity': line.quantity,
                         'price_subtotal': price_subtotal,
-                        'transit': price_subtotal*(1+transit_coefficient),
-                        'customs': price_subtotal*(1+customs_coefficient),
-                        'bank': price_subtotal*(1+bank_coefficient),
-                        'others': price_subtotal*(1+others_coefficient),
+                        'transit': price_subtotal*transit_coefficient,
+                        'customs': price_subtotal*customs_coefficient,
+                        'bank': price_subtotal*bank_coefficient,
+                        'others': price_subtotal*others_coefficient,
                         'cost_price': price_unit*(1+total_coefficient)}
                     pool.get('transit.business.line').create(cr, uid, product_line)
-        self.write(cr, uid, ids, {'coefficient': total_coefficient}, context=context)
+        self.write(cr, uid, ids, {'coefficient': 1 + total_coefficient}, context=context)
         return True
 
     def draft_cb(self, cr, uid, ids, context=None):
@@ -110,13 +109,14 @@ class transit_business(osv.osv):
         pool = pooler.get_pool(cr.dbname)
         business_id = ids[0]
         business = pool.get('transit.business').browse(cr, uid, business_id)
-        product_lines = business.line_ids
+        product_obj = pool.get('product.product')
 
-        for line in product_lines :
-            sql = '''
-                Update product_template set standard_price = %s Where id= %s
-                '''
-            cr.execute(sql, (line.ps,line.product_id.id))
+        for line in business.business_line :
+            #sql = '''
+            #    Update product_template set standard_price = %s Where id= %s
+            #    '''
+            #cr.execute(sql, (line.ps,line.product_id.id))
+            product_obj.write(cr, uid, [line.product_id.id], {'standard_price': line.cost_price}, context=context)
 
 transit_business()
 
@@ -153,6 +153,7 @@ class account_invoice(osv.osv):
             ('supplier', 'Supplier invoice'),
             ('transit', 'Transit invoice'),
             ('customs', 'Customs invoice'),
+            ('bank', 'Bank'),
             ('other', 'Other'),
             ], 'Purchase type', select=True, required=False, states={'draft':[('readonly', False)]}),
     }
