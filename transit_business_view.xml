@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<record model="ir.ui.view" id="cost_price_invoice_supplier_form">
+			<field name="name">transit.business.invoice.supplier.form</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_supplier_form" />
+			<field name="arch" type="xml">
+				<field name="currency_id" position="after">
+					<field name="business_id"/>
+					<field name="purchase_type" />
+				</field>
+			</field>
+		</record>
+
+        <act_window
+                id="act_business_to_purchases"
+                name="Invoices"
+                domain="[('business_id', '=', active_id),('type','=','in_invoice')]"
+                res_model="account.invoice"
+                src_model="transit.business"/>
+
+    <!-- Transit Busniess Search View-->
+    <record model="ir.ui.view" id="view_transit_business_search">
+        <field name="name">transit.business.search</field>
+        <field name="model">transit.business</field>
+        <field name="arch" type="xml">
+            <search string="Transit Businesses">
+                <field name="name" string="Business"/>
+            </search>
+        </field>
+    </record>
+		<record model="ir.ui.view" id="transit_business_tree">
+			<field name="name">transit.business.tree</field>
+			<field name="model">transit.business</field>
+			<field name="arch" type="xml">
+				<!--tree colors="blue:state == 'draft';black:state == 'confirmed';gray:state == 'cancel'" string="Businesses"-->
+				<tree colors="blue:state == 'draft';black:state == 'confirmed';gray:state == 'cancel'" string="Businesses">
+					<field name="name"/>
+					<field name="code"/>
+					<field name="date_start"/>
+					<field name="coefficient"/>
+				</tree>
+			</field>
+		</record>
+
+
+
+		<record model="ir.ui.view" id="transit_business_form">
+			<field name="name">transit.business.form</field>
+			<field name="model">transit.business</field>
+			<field name="arch" type="xml">
+				<form string="Business" version="7.0">
+                <header>
+                    <button  type="object" name="draft_cb" string="Draft" states="confirmed,cancelled" class="oe_highlight"/>
+                    <button  type="object" name="confirm_cb" string="Confirm" states="draft" class="oe_highlight"/>
+                    <button  type="object" name="cancel_cb" string="Cancel" states="draft"  class="oe_highlight"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,close"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="date_start"/>
+                            <field name="extra_costs"/>
+                        </group>
+                        <group>
+                            <field name="code"/>
+					        <field name="date_end" />
+                            <field name="coefficient" />
+                        </group>
+                    </group>
+					<button name="compute_all_lines" string="Compute cost price" type="object" icon="gtk-execute" />
+
+                    <!--field name="business_line">
+                        <tree>
+                            <field name="name"/>
+                            <field name="price_unit"/>
+                            <field name="quantity"/>
+                            <field name="price_subtotal"/>
+                            <field name="transit"/>
+                            <field name="customs"/>
+                            <field name="bank"/>
+                            <field name="others"/>
+                            <field name="cost_price"/>
+                        </tree>
+                     </field-->
+                </sheet>
+				</form>
+			</field>
+		</record>
+
+        <!--record model="ir.ui.view">
+            <field name="name">transit.business.line.tree</field>
+            <field name="model">transit.business.line</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="price_unit"/>
+                    <field name="quantity"/>
+                    <field name="price_subtotal"/>
+                    <field name="transit"/>
+                    <field name="customs"/>
+                    <field name="bank"/>
+                    <field name="others"/>
+                    <field name="cost_price"/>
+                </tree>
+            </field>
+        </record-->
+
+		<record id="transit_business_all_form_action" model="ir.actions.act_window">
+			<field name="name">All businesses</field>
+			<field name="res_model">transit.business</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_transit_business_search"/>
+		</record>
+
+
+		<menuitem name="Transit" id="menu_transit_root" sequence="10"/>
+
+		<menuitem name="Transit Business" id="menu_transit_business_root" parent="menu_transit_root"/>
+
+		<menuitem name="Businesses" action="transit_business_all_form_action"
+                  id="menu_action_transit_businesses" parent="menu_transit_business_root"/>
+
+
+
+	</data>
+</openerp>

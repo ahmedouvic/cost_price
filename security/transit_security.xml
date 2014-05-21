@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+    <record model="res.groups" id="base.group_transit_user">
+        <field name="name">Transit User</field>
+        <field name="category_id" ref="base.module_category_tools"/>
+    </record>
+
+</data>
+</openerp>
+
